@@ -8,4 +8,4 @@ HEAT is a complex code for simulating tokamak power exhaust, and it takes as inp
 
 This repo is young and will grow over the coming months.  
 
-This code was engineered by Dr. Tom Looby.  Questions can be directed to tlooby@cfs.energy
+This code was developed by Dr. Tom Looby.  Questions can be directed to tlooby@cfs.energy

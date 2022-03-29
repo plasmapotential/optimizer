@@ -6,6 +6,7 @@ import time
 from scipy.optimize import minimize_scalar
 import pandas as pd
 import numpy as np
+import sys
 
 class optimizer():
     def __init__(self, optimizerFile):
@@ -84,21 +85,26 @@ class optimizer():
         #loop through forward models defined in input file
         for i in range(len(self.modelNames)):
             modelName = self.modelNames[i]
-            print(modelName)
             #initialize interface to forward model
-            if modelName == 'HEAT':
-                print("Running HEAT forward model")
+            #initialize interface to forward model
+            if modelName == 'Example':
+                print("\nRunning Example CASE forward model")
+                import interfaces.ioExampleClass as interface
+                self.IO = interface.ioInterface()
+            elif modelName == 'HEAT':
+                print("\nRunning HEAT forward model")
                 import interfaces.ioHEATClass as interface
-                self.IO = interface.ioHEAT()
+                self.IO = interface.ioInterface()
             #elif there were other forward models, they would be included here
             #and initizlized under the self.IO object
             #for example, FreeGS could be another optimization variable
 
             #optimize each variables independently
-            for j in range(len(self.inputNames)):
-                print("Optimizing variable: "+self.inputNames[j])
-                self.IO.inputName = self.inputNames[j]
-                res = minimize_scalar(self.runForwardModel)
+            for j in range(len(self.inputNames[i])):
+                print("Optimizing variable: "+self.inputNames[i][j])
+                self.IO.inputName = self.inputNames[i][j]
+                bkt = (self.lowBounds[i][j], self.upBounds[i][j])
+                res = minimize_scalar(self.runForwardModel, method='bounded', bounds=bkt)
                 print(res.x)
         return
 
@@ -120,6 +126,9 @@ class optimizer():
 
 if __name__ == "__main__":
     t0 = time.time()
+    #append HEATpath to PYTHONPATH envvar
+    HEATpath = '/home/tom/source/HEAT/github/source'
+    sys.path.append(HEATpath)
     optimizerFile = 'optimizerInputHEAT.dat'
     opt = optimizer(optimizerFile)
     opt.runOptimizerLoop()

@@ -1,32 +1,21 @@
-#ioHEATClass.py
-#Description:   interface to HEAT for optimizer
+#ioExampleClass.py
+#Description:   example interface for optimizer
 #Engineer:      T Looby
 #Date:          20220324
 import time
-import os
-import sys
+
 
 class ioInterface():
-    def __init__(self, runMode='docker'):
+    def __init__(self):
         """
         initialize interface class object
         """
-        import launchHEAT
-        #load HEAT environment
-        launchHEAT.loadEnviron()
-
-        #load logger
-#        global log
-#        #initialize logs
-#        log = launchHEAT.getLogger()
-
         return
 
     def preProcess(self, x):
         """
         takes input parameter x and convert to HEAT input
         """
-        import CADClass
         if self.inputName == 'height':
             self.input = x * 100
         return
@@ -46,9 +35,4 @@ class ioInterface():
         """
         if self.inputName == 'height':
             self.f_x = self.output / 100.0
-        return
-
-    def readCADfile(self):
-        """
-        """
         return

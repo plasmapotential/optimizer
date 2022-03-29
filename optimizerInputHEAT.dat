@@ -1,3 +1,4 @@
 #input file for optimizer
 modelName, inputName, lowBound, upBound, file
-HEAT, height, 0, 1, optimizerTest.stp
+Example, height, 0, 1, optimizerTest.stp
+HEAT, height, -1, 1, optimizerTest.stp
