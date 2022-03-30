@@ -103,6 +103,7 @@ class optimizer():
             for j in range(len(self.inputNames[i])):
                 print("Optimizing variable: "+self.inputNames[i][j])
                 self.IO.inputName = self.inputNames[i][j]
+                self.IO.STPfile = self.extraFiles[i][j]
                 bkt = (self.lowBounds[i][j], self.upBounds[i][j])
                 res = minimize_scalar(self.runForwardModel, method='bounded', bounds=bkt)
                 print(res.x)

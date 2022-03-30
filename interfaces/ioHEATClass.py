@@ -26,8 +26,16 @@ class ioInterface():
         """
         takes input parameter x and convert to HEAT input
         """
-        import CADClass
-        if self.inputName == 'height':
+        #load CAD file
+        CAD = self.loadCADfile()
+        #process CAD
+        CAD.extrudeFace(self.inputName)
+        print([x.Label for x in CAD.CADobjs])
+        #save new STP file
+        CAD.saveSTEP(CAD.STPout, [CAD.CADobjs[-1]])
+
+
+        if self.inputName == 'Cube':
             self.input = x * 100
         return
 
@@ -44,11 +52,21 @@ class ioInterface():
         """
         converts HEAT output to objective function f(x)
         """
-        if self.inputName == 'height':
+        if self.inputName == 'Cube':
             self.f_x = self.output / 100.0
         return
 
-    def readCADfile(self):
+    def loadCADfile(self):
         """
+        loads a CAD file and returns HEAT CAD object
         """
-        return
+        #load CAD module and STP file
+        import CADClass
+        rootDir = os.environ["rootDir"]
+        dataPath = os.environ["dataPath"]
+        CAD = CADClass.CAD(rootDir, dataPath)
+        CAD.STPfile = self.STPfile
+        CAD.STPout = self.STPfile.split('.')[0] + '_new.' + self.STPfile.split('.')[1]
+        CAD.permute_mask = False
+        CAD.loadSTEP()
+        return CAD
