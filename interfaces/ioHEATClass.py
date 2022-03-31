@@ -32,7 +32,7 @@ class ioInterface():
         CAD.extrudeFace(self.inputName)
         print([x.Label for x in CAD.CADobjs])
         #save new STP file
-        CAD.saveSTEP(CAD.STPout, [CAD.CADobjs[-1]])
+        CAD.saveSTEP(CAD.STPout, CAD.CADobjs[-1])
 
 
         if self.inputName == 'Cube':
